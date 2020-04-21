@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     title: `언론이또 v2`,
     description: `언론의 여성혐오적 표현들`,
-    siteUrl: `https://again2.misogyny.com`,
+    siteUrl: `https://again2.netlify.app`,
     author: `@kkyueing`,
   },
   plugins: [

@@ -11,7 +11,7 @@ const Layout: React.FunctionComponent<Props> = ({ children }) => {
       <footer>
         &copy; {new Date().getFullYear()}
         &nbsp;
-        <a href="https://again2.misogyny.com">https://again2.misogyny.com</a>
+        <a href="https://again2.netlify.app">https://again2.netlify.app</a>
       </footer>
     </>
   )
