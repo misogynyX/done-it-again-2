@@ -34,7 +34,7 @@
   },
   "license": "ISC",
   "scripts": {
-    "build": "gatsby build && cp CNAME public/",
+    "build": "gatsby build",
     "develop": "gatsby develop",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,mdx}\"",
     "start": "npm run develop",
