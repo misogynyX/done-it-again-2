@@ -1,5 +1,8 @@
 import React from "react"
 
+import Header from "./Header"
+import Footer from "./Footer"
+
 interface Props {
   children: React.ReactNode
 }
@@ -7,12 +10,9 @@ interface Props {
 const Layout: React.FunctionComponent<Props> = ({ children }) => {
   return (
     <>
+      <Header />
       <main>{children}</main>
-      <footer>
-        &copy; {new Date().getFullYear()}
-        &nbsp;
-        <a href="https://again2.netlify.app">https://again2.netlify.app</a>
-      </footer>
+      <Footer />
     </>
   )
 }
