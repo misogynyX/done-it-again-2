@@ -1,7 +1,8 @@
 import React from "react"
+import styles from "./Header.module.css"
 
 const Header = () => (
-  <header>
+  <header className={styles.root}>
     <h1>언론이 또</h1>
   </header>
 )

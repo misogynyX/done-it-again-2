@@ -1,7 +1,8 @@
 import React from "react"
+import styles from "./Footer.module.css"
 
 const Footer = () => (
-  <footer>
+  <footer className={styles.root}>
     <p>문의, 제안, 오류신고:</p>
     <ul>
       <li>
@@ -23,7 +24,7 @@ const Footer = () => (
         오분류나 오차가 있을 수 있습니다.
       </li>
     </ul>
-    <p>&copy; {new Date().getFullYear()} misogynyx.com</p>
+    <p className={styles.copyright}>&copy; {new Date().getFullYear()} misogynyx.com</p>
   </footer>
 )
 

@@ -1,5 +1,6 @@
 import React from "react"
 
+import styles from "./SectionList.module.css"
 import Section from "./Section"
 
 interface Props {
@@ -24,14 +25,14 @@ const SectionList = (props: Props) => {
   ]
 
   return (
-    <main>
+    <section className={styles.root}>
       <h2>기사 모음</h2>
-      <ul className="sections">
+      <ul>
         {groups.map(group => (
           <Section key={group.tag} tag={group.tag} articles={group.articles}></Section>
         ))}
       </ul>
-    </main>
+    </section>
   )
 }
 
