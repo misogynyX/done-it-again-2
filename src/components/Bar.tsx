@@ -10,8 +10,9 @@ interface Props {
 }
 
 const Bar = (props: Props) => {
-  const percent = Math.round((props.count / props.total) * 10000) / 100 || 0
-  const barPercent = (props.count / props.max) * 100 || 0
+  const ratio = props.count / props.total
+  const percent = Math.round(ratio * 10000) / 100 || 0
+  const barPercent = (ratio / props.max) * 100 || 0
 
   return (
     <div className={styles.root}>

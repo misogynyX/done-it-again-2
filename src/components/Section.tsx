@@ -10,7 +10,7 @@ interface Props {
 }
 
 const Section = (props: Props) => {
-  const { tagDef, articles } = props.group
+  const { tagDef, tagFreq, articles } = props.group
 
   return (
     <section id={tagDef.tag} className={styles.root}>
@@ -18,14 +18,18 @@ const Section = (props: Props) => {
       <div className={styles.guide}>
         <p dangerouslySetInnerHTML={{ __html: tagDef.description }} />
       </div>
-      <div className={styles.stats}>
-        <p>
-          <Pie ratio={0.9} />
-          최근 6개월 이내에 수집된 기사 중 부적절한 표현이 담긴 기사는 총 <strong>NNNN건</strong> 입니다. 이 중{" "}
-          <Mark>축소/은폐</Mark> 범주에 속한 표현이 담긴 기사는 총 <strong>NN건</strong>으로 약 <strong>N.N%</strong>{" "}
-          입니다.
-        </p>
-      </div>
+      {tagDef.tag === "recent" ? (
+        ""
+      ) : (
+        <div className={styles.stats}>
+          <p>
+            <Pie ratio={tagFreq.ratio} />
+            최근 6개월 이내에 수집된 기사 중 부적절한 표현이 담긴 기사는 총 <strong>{tagFreq.total}건</strong> 입니다.
+            이 중 <Mark>{tagDef.title}</Mark> 범주에 속한 표현이 담긴 기사는 총 <strong>{tagFreq.count}건</strong>으로
+            약 <strong>{Math.round(tagFreq.ratio * 1000) / 10}%</strong> 입니다.
+          </p>
+        </div>
+      )}
       <ol className={styles.articles}>
         {articles.map(article => (
           <Article key={article.article_id} article={article} />

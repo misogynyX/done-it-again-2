@@ -8,11 +8,11 @@ interface Props {
   children: React.ReactNode
 }
 
-const Layout: React.FunctionComponent<Props> = ({ children }) => {
+const Layout = (props: Props) => {
   return (
     <div className={styles.root}>
       <Header />
-      <main>{children}</main>
+      <main>{props.children}</main>
       <Footer />
     </div>
   )

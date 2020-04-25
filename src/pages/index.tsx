@@ -23,9 +23,7 @@ function cleanseArticles(data: any): Article[] {
   const articles: Article[] = []
 
   data.allArticlesCsv.group.forEach((g: any) => {
-    g.edges.forEach((row: any) => {
-      const node = row.node
-
+    g.nodes.forEach((node: any) => {
       // remove duplications
       if (articleIds.has(node["article_id"])) return
       articleIds.add(node["article_id"])
@@ -57,33 +55,39 @@ function cleanseArticles(data: any): Article[] {
 /**
  * Group articles by tag
  */
-function groupArticles(tagDefs: TagDef[], articles: Article[]): ArticleGroup[] {
-  const map = {}
+function groupArticles(tagDefs: TagDef[], tagFreqs: TagFrequency[], articles: Article[]): ArticleGroup[] {
+  const map: { [index: string]: Article[] } = {}
   articles.forEach(article => {
     article["tags"].forEach(tag => {
       if (!map[tag]) map[tag] = []
       map[tag].push(article)
     })
   })
-  return tagDefs.map(tagDef => ({
-    tagDef,
-    articles: map[tagDef.tag] || [],
-  }))
+  return tagDefs.map(tagDef => {
+    const tagFreq = tagFreqs.filter(freqs => freqs.tag === tagDef.tag)[0]
+    return {
+      tagDef,
+      tagFreq: tagFreq || { tag: tagDef.tag, count: 0, total: 0, ratio: 0 },
+      articles: map[tagDef.tag] || [],
+    }
+  })
 }
 
 const Index = ({ data }) => {
   const articles: Article[] = cleanseArticles(data)
-  const tagDefs: TagDef[] = data.allTagDefsYaml.edges.map((edge: any) => {
-    return edge.node
-  })
-  const groups: ArticleGroup[] = groupArticles(tagDefs, articles)
+  const tagDefs: TagDef[] = data.allTagDefsYaml.nodes
+  const dailyStats: DailyStats = data.allStatsDailyCsv.nodes[0]
+  const worstCps: CpStats[] = data.allStatsWorstCpsCsv.nodes
+  const bestCps: CpStats[] = data.allStatsBestCpsCsv.nodes
+  const tagFreqs: TagFrequency[] = data.allStatsFreqTagsCsv.nodes
+  const groups: ArticleGroup[] = groupArticles(tagDefs, tagFreqs, articles)
 
   return (
     <Layout>
       <SEO title="홈" />
-      <Intro />
+      <Intro dailyStats={dailyStats} />
       <SectionList articleGroups={groups} />
-      <HallOfFame />
+      <HallOfFame worstCps={worstCps} bestCps={bestCps} />
       <BestPractices />
     </Layout>
   )
@@ -97,30 +101,61 @@ export default Index
 export const query = graphql`
   query {
     allTagDefsYaml {
-      edges {
-        node {
-          tag
-          title
-          description
-        }
+      nodes {
+        tag
+        title
+        description
       }
     }
 
     allArticlesCsv(sort: { order: DESC, fields: date }) {
       group(field: tags, limit: 20) {
-        edges {
-          node {
-            title
-            article_id
-            authors
-            cp_name
-            date
-            description
-            keywords
-            tags
-            url
-          }
+        nodes {
+          title
+          article_id
+          authors
+          cp_name
+          date
+          description
+          keywords
+          tags
+          url
         }
+      }
+    }
+
+    allStatsDailyCsv(limit: 1, sort: { order: DESC, fields: date }) {
+      nodes {
+        date
+        total
+        bad
+      }
+    }
+
+    allStatsFreqTagsCsv {
+      nodes {
+        total
+        tag
+        ratio
+        count
+      }
+    }
+
+    allStatsWorstCpsCsv(limit: 10) {
+      nodes {
+        cp_name
+        total
+        bad
+        ratio
+      }
+    }
+
+    allStatsBestCpsCsv(limit: 10) {
+      nodes {
+        cp_name
+        total
+        bad
+        ratio
       }
     }
   }
