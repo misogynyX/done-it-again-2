@@ -10,6 +10,17 @@ type Article = {
   tags: string[]
 }
 
+type TagDef = {
+  tag: string
+  title: string
+  description: string
+}
+
+type ArticleGroup = {
+  tagDef: TagDef
+  articles: Article[]
+}
+
 declare module "*.css" {
   const content: { [className: string]: string }
   export = content

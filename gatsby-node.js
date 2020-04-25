@@ -14,17 +14,6 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
   }
 }
 
-function getOldPath(date, category, filename) {
-  if (date) {
-    const y = date.substr(0, 4)
-    const m = date.substr(5, 2)
-    const d = date.substr(8, 2)
-    return `/${y}/${m}/${d}/${filename}.html`
-  } else {
-    return `/${category}/${filename}.html`
-  }
-}
-
 exports.createPages = async ({ graphql, actions }) => {
   const result = await graphql(`
     query {
@@ -53,8 +42,5 @@ exports.createPages = async ({ graphql, actions }) => {
       context: { category, filename, slug },
     }
     actions.createPage(page)
-
-    const oldPath = getOldPath(node.frontmatter.date, category, filename)
-    if (oldPath) actions.createPage({ ...page, path: oldPath })
   })
 }

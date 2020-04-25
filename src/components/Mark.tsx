@@ -5,8 +5,6 @@ interface Props {
   good?: boolean
 }
 
-const Mark = (props: Props) => (
-  <span style={{ color: "#FFF", backgroundColor: props.good ? "green" : "red" }}>{props.children}</span>
-)
+const Mark = (props: Props) => <span className={props.good ? "good" : "bad"}>{props.children}</span>
 
 export default Mark

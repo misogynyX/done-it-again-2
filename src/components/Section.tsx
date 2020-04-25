@@ -6,23 +6,17 @@ import Pie from "./Pie"
 import Mark from "./Mark"
 
 interface Props {
-  tag: string
-  articles: Article[]
+  group: ArticleGroup
 }
 
 const Section = (props: Props) => {
-  const tag = props.tag
-  const articles = props.articles
+  const { tagDef, articles } = props.group
 
   return (
-    <section id={tag} className={styles.root}>
-      <h3>축소/은폐</h3>
+    <section id={tagDef.tag} className={styles.root}>
+      <h3>{tagDef.title}</h3>
       <div className={styles.guide}>
-        <p>
-          <Mark>몹쓸 짓</Mark>, <Mark>손찌검</Mark>, <Mark>홧김에</Mark> 등의 표현은 성폭력의 심각성을 상대적으로
-          가볍게 축소하고 희석할 우려가 있습니다. 자신의 가해를 변명하는 가해자의 말을 부각시키고 선정적으로 보도하는
-          일이 없도록 가해 행동은 <Mark good>성폭력</Mark>, <Mark good>성범죄</Mark>와 같이 정확히 지칭해야 합니다.
-        </p>
+        <p dangerouslySetInnerHTML={{ __html: tagDef.description }} />
       </div>
       <div className={styles.stats}>
         <p>

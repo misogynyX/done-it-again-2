@@ -54,3 +54,19 @@ strong {
   color: var(--highlight-color);
 }
 
+span.good, span.bad {
+  padding: 1px 3px;
+  border-radius: 2px;
+  font-weight: bold;
+  word-break: keep-all;
+  white-space: nowrap;
+  color: #fff;
+}
+
+span.good {
+  background-color: var(--good-color);
+}
+
+span.bad {
+  background-color: var(--bad-color);
+}
