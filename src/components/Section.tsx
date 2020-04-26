@@ -32,7 +32,7 @@ const Section = (props: Props) => {
       )}
       <ol className={styles.articles}>
         {articles.map(article => (
-          <Article key={article.article_id} article={article} />
+          <Article key={article.article_id} article={article} tagDef={tagDef} />
         ))}
       </ol>
     </section>

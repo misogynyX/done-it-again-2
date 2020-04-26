@@ -4,10 +4,17 @@ import styles from "./Article.module.css"
 
 interface Props {
   article: Article
+  tagDef: TagDef
+}
+
+function replaceHighlights(text: string, tag: string): string {
+  return text.replace(/{(.+?)}(.+?){\/.+?}/g, (_m, p1, p2) => {
+    return tag === "recent" || p1 === tag ? `<span class="bad">${p2}</span>` : p2
+  })
 }
 
 const Article = (props: Props) => {
-  const article = props.article
+  const { article, tagDef } = props
 
   return (
     <li className={styles.root}>
@@ -17,11 +24,17 @@ const Article = (props: Props) => {
         <div className={styles.date}>{article.date}</div>
       </div>
       <h4 className={styles.title}>
-        <a href={article.url} target="_blank" rel="noopener noreferrer">
-          {article.title}
-        </a>
+        <a
+          href={article.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          dangerouslySetInnerHTML={{ __html: replaceHighlights(article.title, tagDef.tag) }}
+        />
       </h4>
-      <div className={styles.description}>{article.description}</div>
+      <div
+        className={styles.description}
+        dangerouslySetInnerHTML={{ __html: replaceHighlights(article.description, tagDef.tag) }}
+      />
       <a className={styles.more} href={article.url} target="_blank" rel="noopener noreferrer">
         더 읽기
       </a>

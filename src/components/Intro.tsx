@@ -34,11 +34,9 @@ const Intro = (props: Props) => {
       </blockquote>
 
       <div className={styles.brief}>
-        <p>
-          <strong className="title">
-            언론, 성차별 부추기는 관행 이어와 <br />
-            보도, 성인지 감수성을 지녀야 할 때
-          </strong>
+        <p className={styles.title}>
+          언론, 성차별 부추기는 관행 이어와 <br />
+          보도, 성인지 감수성을 지녀야 할 때
         </p>
         <p>
           일상에서 뉴스를 보고 계신가요? <br />
